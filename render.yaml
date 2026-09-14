@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: campusloop
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn campusloop.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: campusloop.settings
+      - key: PYTHON_VERSION
+        value: "3.12"
