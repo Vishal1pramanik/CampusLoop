@@ -129,7 +129,11 @@ WSGI_APPLICATION = 'campusloop.wsgi.application'
 # DATABASE
 # ---------------------------------------------------------
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = (
+    os.getenv('DATABASE_URL')
+    or os.getenv('POSTGRES_URL')
+    or os.getenv('POSTGRES_PRISMA_URL')
+)
 
 if DATABASE_URL:
     DATABASES = {
