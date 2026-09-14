@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 
 # ---------------------------------------------------------
@@ -21,6 +22,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '0.0.0.0',
     'testserver',
+    '.onrender.com',
+    '.railway.app',
+    '.vercel.app',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -29,6 +33,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://0.0.0.0:8000',
     'https://localhost',
     'https://127.0.0.1',
+    'https://*.onrender.com',
+    'https://*.railway.app',
+    'https://*.vercel.app',
 ]
 
 
@@ -57,6 +64,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
 
@@ -171,10 +179,13 @@ USE_TZ = True
 # ---------------------------------------------------------
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ---------------------------------------------------------
