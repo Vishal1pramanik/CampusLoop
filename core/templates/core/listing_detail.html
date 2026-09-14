@@ -1,0 +1,542 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ item.title }} - CampusLoop{% endblock %}
+
+{% block content %}
+
+<style>
+    .detail-page {
+        background: #f8f7f4;
+        min-height: calc(100vh - 70px);
+        padding: 110px 6% 70px;
+    }
+
+    .detail-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 24px;
+        color: #8b1e2d;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1.7fr 1fr;
+        gap: 28px;
+        align-items: start;
+    }
+
+    .detail-card,
+    .side-card,
+    .request-card {
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid #e3e1dc;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(23, 32, 51, 0.05);
+    }
+
+    .item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 22px;
+    }
+
+    .item-header h1 {
+        margin: 0;
+        color: #172033;
+        font-size: 34px;
+        line-height: 1.2;
+    }
+
+    .status {
+        flex-shrink: 0;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .available {
+        background: #e8f4ec;
+        color: #23633a;
+    }
+
+    .sold {
+        background: #f5e7e8;
+        color: #8b1e2d;
+    }
+
+    .description {
+        color: #555d6b;
+        line-height: 1.8;
+        font-size: 16px;
+        margin-bottom: 28px;
+    }
+
+    .details-title {
+        font-size: 18px;
+        color: #172033;
+        margin-bottom: 16px;
+    }
+
+    .details-list {
+        border-top: 1px solid #e8e6e1;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 0;
+        border-bottom: 1px solid #e8e6e1;
+    }
+
+    .detail-label {
+        color: #6b7280;
+    }
+
+    .detail-value {
+        color: #172033;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .price {
+        font-size: 24px;
+        color: #8b1e2d;
+        font-weight: 700;
+    }
+
+    .side-card h2 {
+        margin-top: 0;
+        color: #172033;
+        font-size: 21px;
+    }
+
+    .seller-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: #172033;
+        margin-bottom: 6px;
+    }
+
+    .seller-text {
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 22px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 18px;
+        border-radius: 7px;
+        text-align: center;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .primary-btn {
+        background: #8b1e2d;
+        color: white;
+        border: 1px solid #8b1e2d;
+    }
+
+    .primary-btn:hover {
+        background: #701724;
+    }
+
+    .secondary-btn {
+        background: white;
+        color: #8b1e2d;
+        border: 1px solid #8b1e2d;
+        margin-top: 10px;
+    }
+
+    .secondary-btn:hover {
+        background: #f8eeee;
+    }
+
+    .sold-box {
+        background: #f7eeee;
+        border: 1px solid #ead2d5;
+        padding: 16px;
+        border-radius: 7px;
+        color: #8b1e2d;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    .owner-box {
+        background: #f7f5ef;
+        border: 1px solid #e8e3d5;
+        padding: 16px;
+        border-radius: 7px;
+        color: #555d6b;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    /* REQUEST */
+
+    .request-card {
+        margin-top: 28px;
+    }
+
+    .request-card h2 {
+        margin-top: 0;
+        color: #172033;
+        font-size: 22px;
+    }
+
+    .request-card > p {
+        color: #6b7280;
+        line-height: 1.6;
+    }
+
+    .request-card form {
+        margin-top: 22px;
+    }
+
+    .request-card form p {
+        margin-bottom: 16px;
+    }
+
+    .request-card label {
+        display: block;
+        margin-bottom: 7px;
+        color: #172033;
+        font-weight: 600;
+    }
+
+    .request-card input,
+    .request-card textarea,
+    .request-card select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        border: 1px solid #d8d6d0;
+        border-radius: 7px;
+        background: white;
+        font: inherit;
+    }
+
+    .request-card textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .request-card input:focus,
+    .request-card textarea:focus,
+    .request-card select:focus {
+        outline: none;
+        border-color: #8b1e2d;
+        box-shadow: 0 0 0 3px rgba(139, 30, 45, 0.08);
+    }
+
+    .request-submit {
+        background: #172033;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 7px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .request-submit:hover {
+        background: #0f1726;
+    }
+
+    .errorlist {
+        margin: 6px 0 10px;
+        padding: 0;
+        list-style: none;
+        color: #8b1e2d;
+        font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+
+        .detail-page {
+            padding: 90px 5% 50px;
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .item-header {
+            flex-direction: column;
+        }
+
+        .item-header h1 {
+            font-size: 28px;
+        }
+    }
+
+    @media (max-width: 500px) {
+
+        .detail-card,
+        .side-card,
+        .request-card {
+            padding: 22px;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-value {
+            text-align: left;
+        }
+    }
+</style>
+
+
+<div class="detail-page">
+
+    <div class="detail-container">
+
+        <a href="{% url 'listings' %}" class="back-link">
+            ← Back to Browse Items
+        </a>
+
+
+        <div class="detail-grid">
+
+            <!-- ITEM INFORMATION -->
+
+            <div class="detail-card">
+
+                <div class="item-header">
+
+                    <h1>{{ item.title }}</h1>
+
+                    {% if item.is_available %}
+
+                        <span class="status available">
+                            Available
+                        </span>
+
+                    {% else %}
+
+                        <span class="status sold">
+                            Sold
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <p class="description">
+                    {{ item.description }}
+                </p>
+
+
+                <h2 class="details-title">
+                    Item Details
+                </h2>
+
+
+                <div class="details-list">
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Category
+                        </span>
+
+                        <span class="detail-value">
+                            {{ item.category }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Condition
+                        </span>
+
+                        <span class="detail-value">
+                            {{ item.condition }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Exchange Type
+                        </span>
+
+                        <span class="detail-value">
+                            {{ item.exchange_type }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Price
+                        </span>
+
+                        <span class="detail-value price">
+                            ₹{{ item.price }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SELLER -->
+
+            <div class="side-card">
+
+                <h2>
+                    Seller
+                </h2>
+
+
+                {% if item.seller %}
+
+                    <div class="seller-name">
+                        {{ item.seller.username }}
+                    </div>
+
+                    <p class="seller-text">
+                        This item is listed by a CampusLoop student.
+                        Contact the seller directly through the platform.
+                    </p>
+
+                {% else %}
+
+                    <p class="seller-text">
+                        Seller information is not available.
+                    </p>
+
+                {% endif %}
+
+
+                {% if item.seller == user %}
+
+                    <div class="owner-box">
+
+                        <strong>
+                            Your Listing
+                        </strong>
+
+                        <br>
+
+                        You are the seller of this item.
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="secondary-btn"
+                    >
+                        Go to Dashboard
+                    </a>
+
+
+                {% elif item.is_available %}
+
+                    <a
+                        href="{% url 'contact_seller' item.id %}"
+                        class="primary-btn"
+                    >
+                        Contact Seller
+                    </a>
+
+
+                {% else %}
+
+                    <div class="sold-box">
+
+                        <strong>
+                            This item is no longer available.
+                        </strong>
+
+                        <br>
+
+                        You cannot contact the seller about this listing.
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- SEND REQUEST -->
+
+        {% if user.is_authenticated and item.is_available and item.seller != user %}
+
+            <div class="request-card">
+
+                <h2>
+                    Send a Request
+                </h2>
+
+                <p>
+                    Interested in this item? You can also send a request
+                    with a short message to the seller.
+                </p>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {{ request_form.as_p }}
+
+
+                    <button
+                        type="submit"
+                        class="request-submit"
+                    >
+                        Send Request
+                    </button>
+
+                </form>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</div>
+
+{% endblock %}

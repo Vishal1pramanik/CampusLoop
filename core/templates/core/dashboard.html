@@ -1,0 +1,496 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard - CampusLoop{% endblock %}
+
+{% block content %}
+
+<style>
+    .dashboard-page {
+        background: #f8f7f4;
+        min-height: calc(100vh - 70px);
+        padding: 110px 6% 70px;
+    }
+
+    .dashboard-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .dashboard-header {
+        margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 8px;
+        color: #172033;
+        font-size: 34px;
+    }
+
+    .dashboard-header p {
+        margin: 0;
+        color: #69707d;
+    }
+
+    .dashboard-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 22px;
+        flex-wrap: wrap;
+    }
+
+    .dashboard-btn {
+        display: inline-block;
+        padding: 11px 17px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .primary-btn {
+        background: #8b1e2d;
+        color: white;
+        border: 1px solid #8b1e2d;
+    }
+
+    .primary-btn:hover {
+        background: #701724;
+    }
+
+    .secondary-btn {
+        background: white;
+        color: #172033;
+        border: 1px solid #d8d6d0;
+    }
+
+    .secondary-btn:hover {
+        border-color: #8b1e2d;
+        color: #8b1e2d;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 20px;
+        margin: 40px 0 18px;
+    }
+
+    .section-header h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 23px;
+    }
+
+    .section-header p {
+        margin: 5px 0 0;
+        color: #69707d;
+        font-size: 14px;
+    }
+
+    .listing-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .listing-card {
+        background: white;
+        border: 1px solid #e3e1dc;
+        border-radius: 9px;
+        padding: 22px;
+        box-shadow: 0 6px 20px rgba(23, 32, 51, 0.04);
+    }
+
+    .listing-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .listing-title {
+        margin: 0;
+        color: #172033;
+        font-size: 19px;
+        line-height: 1.35;
+    }
+
+    .status {
+        flex-shrink: 0;
+        padding: 5px 9px;
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .available {
+        background: #e8f4ec;
+        color: #23633a;
+    }
+
+    .sold {
+        background: #f5e7e8;
+        color: #8b1e2d;
+    }
+
+    .listing-description {
+        color: #69707d;
+        line-height: 1.6;
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    .listing-info {
+        border-top: 1px solid #eceae5;
+        border-bottom: 1px solid #eceae5;
+        padding: 12px 0;
+        margin-bottom: 18px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 5px 0;
+        font-size: 13px;
+    }
+
+    .info-label {
+        color: #7a808b;
+    }
+
+    .info-value {
+        color: #172033;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .listing-price {
+        color: #8b1e2d;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .listing-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .view-btn {
+        flex: 1;
+        display: block;
+        text-align: center;
+        padding: 10px;
+        border-radius: 6px;
+        background: #172033;
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .view-btn:hover {
+        background: #0f1726;
+    }
+
+    .sold-text {
+        color: #8b1e2d;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .sold-form {
+        margin: 0;
+    }
+
+    .sold-btn {
+        padding: 10px 12px;
+        border: 1px solid #d8c1c4;
+        border-radius: 6px;
+        background: white;
+        color: #8b1e2d;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .sold-btn:hover {
+        background: #f8eeee;
+    }
+
+    .empty-state {
+        background: white;
+        border: 1px solid #e3e1dc;
+        border-radius: 9px;
+        padding: 50px 25px;
+        text-align: center;
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: #172033;
+    }
+
+    .empty-state p {
+        color: #69707d;
+        margin-bottom: 22px;
+    }
+
+    .bottom-link {
+        margin-top: 35px;
+    }
+
+    .bottom-link a {
+        color: #8b1e2d;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .bottom-link a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 950px) {
+        .listing-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 650px) {
+        .dashboard-page {
+            padding: 90px 5% 50px;
+        }
+
+        .listing-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-header h1 {
+            font-size: 28px;
+        }
+
+        .section-header {
+            display: block;
+        }
+
+        .listing-top {
+            flex-direction: column;
+        }
+    }
+</style>
+
+
+<div class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <h1>My Dashboard</h1>
+
+            <p>
+                Welcome back, <strong>{{ user.username }}</strong>.
+                Manage your CampusLoop listings from here.
+            </p>
+
+            <div class="dashboard-actions">
+
+                <a href="{% url 'add_listing' %}"
+                   class="dashboard-btn primary-btn">
+                    + Add New Item
+                </a>
+
+                <a href="{% url 'my_requests' %}"
+                   class="dashboard-btn secondary-btn">
+                    My Requests
+                </a>
+
+                <a href="{% url 'inbox' %}"
+                   class="dashboard-btn secondary-btn">
+                    Inbox
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- LISTINGS -->
+        <div class="section-header">
+
+            <div>
+                <h2>My Listings</h2>
+
+                <p>
+                    Items you have shared with other students.
+                </p>
+            </div>
+
+        </div>
+
+
+        {% if my_listings %}
+
+            <div class="listing-grid">
+
+                {% for item in my_listings %}
+
+                    <div class="listing-card">
+
+                        <div class="listing-top">
+
+                            <h3 class="listing-title">
+                                {{ item.title }}
+                            </h3>
+
+                            {% if item.is_available %}
+                                <span class="status available">
+                                    Available
+                                </span>
+                            {% else %}
+                                <span class="status sold">
+                                    Sold
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+
+                        <p class="listing-description">
+                            {{ item.description|truncatechars:100 }}
+                        </p>
+
+
+                        <div class="listing-info">
+
+                            <div class="info-row">
+                                <span class="info-label">
+                                    Category
+                                </span>
+
+                                <span class="info-value">
+                                    {{ item.category }}
+                                </span>
+                            </div>
+
+
+                            <div class="info-row">
+                                <span class="info-label">
+                                    Condition
+                                </span>
+
+                                <span class="info-value">
+                                    {{ item.condition }}
+                                </span>
+                            </div>
+
+
+                            <div class="info-row">
+                                <span class="info-label">
+                                    Type
+                                </span>
+
+                                <span class="info-value">
+                                    {{ item.exchange_type }}
+                                </span>
+                            </div>
+
+
+                            <div class="info-row">
+                                <span class="info-label">
+                                    Price
+                                </span>
+
+                                <span class="info-value listing-price">
+                                    ₹{{ item.price }}
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        {% if item.is_available %}
+
+                            <div class="listing-actions">
+
+                                <a href="{% url 'listing_detail' item.id %}"
+                                   class="view-btn">
+                                    View Listing
+                                </a>
+
+                                <form method="POST"
+                                      action="{% url 'mark_as_sold' item.id %}"
+                                      class="sold-form">
+
+                                    {% csrf_token %}
+
+                                    <button type="submit"
+                                            class="sold-btn">
+                                        Mark Sold
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="listing-actions">
+
+                                <a href="{% url 'listing_detail' item.id %}"
+                                   class="view-btn">
+                                    View Listing
+                                </a>
+
+                                <span class="sold-text">
+                                    No longer available
+                                </span>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h3>No Listings Yet</h3>
+
+                <p>
+                    You haven't shared anything on CampusLoop yet.
+                </p>
+
+                <a href="{% url 'add_listing' %}"
+                   class="dashboard-btn primary-btn">
+                    Add Your First Item
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="bottom-link">
+            <a href="{% url 'home' %}">
+                ← Back to Home
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

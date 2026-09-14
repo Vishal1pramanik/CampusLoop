@@ -1,0 +1,296 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Create Account - CampusLoop{% endblock %}
+
+{% block content %}
+
+<style>
+    .register-page {
+        min-height: calc(100vh - 72px);
+        background: #f7f5f1;
+        padding: 55px 20px 70px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .register-wrapper {
+        width: 100%;
+        max-width: 430px;
+    }
+
+    .register-card {
+        background: #ffffff;
+        border: 1px solid #e1ddd6;
+        border-radius: 8px;
+        padding: 34px 36px;
+        box-shadow: 0 8px 24px rgba(23, 32, 51, 0.07);
+    }
+
+    .register-header {
+        margin-bottom: 27px;
+    }
+
+    .register-header h1 {
+        margin: 0 0 8px;
+        color: #172033;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+    }
+
+    .register-header p {
+        margin: 0;
+        color: #69707d;
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+    .form-group {
+        margin-bottom: 19px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #172033;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .form-input {
+        display: block !important;
+        width: 100% !important;
+        height: 44px !important;
+        padding: 0 13px !important;
+        box-sizing: border-box !important;
+
+        border: 1px solid #cfcac2 !important;
+        border-radius: 6px !important;
+
+        background: #ffffff !important;
+        color: #172033 !important;
+
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #8b1e2d !important;
+        box-shadow: 0 0 0 3px rgba(139, 30, 45, 0.08);
+    }
+
+    .form-input::placeholder {
+        color: #9a9da4;
+    }
+
+    .field-error {
+        margin-top: 6px;
+        color: #8b1e2d;
+        font-size: 12px;
+    }
+
+    .help-text {
+        margin-top: 7px;
+        color: #7a808b;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .help-text ul {
+        margin: 5px 0 0 16px;
+        padding: 0;
+    }
+
+    .help-text li {
+        margin-bottom: 2px;
+    }
+
+    .error-box {
+        margin-bottom: 20px;
+        padding: 11px 13px;
+        background: #faf0f1;
+        border: 1px solid #e7cfd3;
+        border-radius: 6px;
+        color: #8b1e2d;
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    .register-btn {
+        width: 100%;
+        height: 45px;
+        margin-top: 4px;
+
+        border: none;
+        border-radius: 6px;
+
+        background: #8b1e2d;
+        color: #ffffff;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .register-btn:hover {
+        background: #701724;
+    }
+
+    .register-footer {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #ece9e3;
+        text-align: center;
+    }
+
+    .register-footer p {
+        margin: 0;
+        color: #69707d;
+        font-size: 13px;
+    }
+
+    .register-footer a {
+        color: #8b1e2d;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-footer a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 520px) {
+        .register-page {
+            padding: 35px 15px 50px;
+        }
+
+        .register-card {
+            padding: 28px 22px;
+        }
+
+        .register-header h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+
+
+<div class="register-page">
+
+    <div class="register-wrapper">
+
+        <div class="register-card">
+
+            <div class="register-header">
+                <h1>Create Your Account</h1>
+
+                <p>
+                    Join CampusLoop and start exchanging resources
+                    with students on your campus.
+                </p>
+            </div>
+
+
+            {% if error %}
+                <div class="error-box">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME -->
+                <div class="form-group">
+
+                    <label for="id_username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="id_username"
+                        class="form-input"
+                        value="{{ username|default:'' }}"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="form-group">
+
+                    <label for="id_password1">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="id_password"
+                        class="form-input"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+                <div class="form-group">
+
+                    <label for="id_password2">
+                        Confirm Password
+                    </label>
+
+                   <input
+                        type="password"
+                        name="confirm_password"
+                        id="id_confirm_password"
+                        class="form-input"
+                        autocomplete="new-password"
+                        required
+                    >
+
+
+                </div>
+
+
+                <button type="submit" class="register-btn">
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <div class="register-footer">
+
+                <p>
+                    Already have an account?
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

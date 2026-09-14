@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Contact Seller - CampusLoop{% endblock %}
+
+{% block content %}
+
+<h1>Contact Seller</h1>
+
+<h2>{{ item.title }}</h2>
+
+<p><strong>Seller:</strong> {{ item.seller.username }}</p>
+<p><strong>Price:</strong> ₹{{ item.price }}</p>
+
+<hr>
+
+<h2>Conversation</h2>
+
+{% for message in messages %}
+
+    <div>
+        <p>
+            <strong>{{ message.sender.username }}</strong>
+        </p>
+
+        <p>{{ message.text }}</p>
+
+        <small>{{ message.created_at }}</small>
+    </div>
+
+    <hr>
+
+{% empty %}
+
+    <p>No messages yet. Start the conversation below.</p>
+
+{% endfor %}
+
+<h3>Send a Message</h3>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <textarea
+        name="text"
+        rows="5"
+        placeholder="Write your message..."
+        required
+    ></textarea>
+
+    <br><br>
+
+    <button type="submit">Send Message</button>
+
+</form>
+
+<br>
+
+<a href="{% url 'listing_detail' item.id %}">
+    ← Back to Item
+</a>
+
+{% endblock %}

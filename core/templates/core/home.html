@@ -1,0 +1,914 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+CampusLoop - Student Marketplace
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+    /* ==========================================
+       FULL HOMEPAGE
+    ========================================== */
+
+    .campus-home {
+        width: 100%;
+    }
+
+
+    /* ==========================================
+       HERO
+    ========================================== */
+
+    .hero {
+        min-height: 760px;
+
+        padding:
+            150px 6% 70px;
+
+        display: flex;
+
+        align-items: flex-end;
+
+        position: relative;
+
+        background-image:
+            linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.03) 35%,
+                rgba(0, 0, 0, 0.15) 58%,
+                rgba(0, 0, 0, 0.58) 100%
+            ),
+            url("{% static 'images/pillai-background.png' %}");
+
+        background-size: cover;
+
+        background-position: center top;
+
+        background-repeat: no-repeat;
+    }
+
+
+    /* ==========================================
+       HERO CONTENT
+    ========================================== */
+
+    .hero-content {
+    width: 100%;
+
+    max-width: 590px;
+
+    padding: 28px 32px;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    border-left: 5px solid #8b1e2d;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.22);
+
+    /* Move the box slightly left and down */
+    transform: translate(-25px, 18px);
+}
+        
+
+
+    .hero-content h1 {
+        margin:
+            0 0 13px;
+
+        color:
+            #172033;
+
+        font-size:
+            clamp(32px, 4.5vw, 48px);
+
+        line-height:
+            1.08;
+
+        letter-spacing:
+            -0.8px;
+    }
+
+
+    .hero-content p {
+        margin:
+            0 0 23px;
+
+        color:
+            #424852;
+
+        font-size:
+            16px;
+
+        line-height:
+            1.65;
+    }
+
+
+    /* ==========================================
+       HERO BUTTONS
+    ========================================== */
+
+    .hero-buttons {
+        display: flex;
+
+        gap: 11px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .primary-button {
+        display: inline-block;
+
+        padding:
+            11px 20px;
+
+        border-radius: 6px;
+
+        background:
+            #8b1e2d;
+
+        border:
+            1px solid #8b1e2d;
+
+        color:
+            white;
+
+        font-size:
+            14px;
+
+        font-weight:
+            600;
+
+        text-decoration:
+            none;
+
+        transition:
+            0.2s ease;
+    }
+
+
+    .primary-button:hover {
+        background:
+            #701724;
+
+        color:
+            white;
+    }
+
+
+    .secondary-button {
+        display: inline-block;
+
+        padding:
+            11px 20px;
+
+        border-radius: 6px;
+
+        background:
+            white;
+
+        border:
+            1px solid #8b1e2d;
+
+        color:
+            #8b1e2d;
+
+        font-size:
+            14px;
+
+        font-weight:
+            600;
+
+        text-decoration:
+            none;
+
+        transition:
+            0.2s ease;
+    }
+
+
+    .secondary-button:hover {
+        background:
+            #f7edef;
+
+        color:
+            #701724;
+    }
+
+
+    /* ==========================================
+       CONTENT AREA
+    ========================================== */
+
+    .content-area {
+        width: 100%;
+
+        padding:
+            65px 6% 70px;
+
+        background:
+            #f8f7f4;
+    }
+
+
+    .content-container {
+        max-width:
+            1180px;
+
+        margin:
+            0 auto;
+    }
+
+
+    /* ==========================================
+       SECTION HEADING
+    ========================================== */
+
+    .section-heading {
+        margin-bottom:
+            28px;
+    }
+
+
+    .section-heading h2 {
+        margin:
+            0 0 8px;
+
+        color:
+            #172033;
+
+        font-size:
+            28px;
+    }
+
+
+    .section-heading p {
+        margin:
+            0;
+
+        color:
+            #606873;
+
+        font-size:
+            15px;
+    }
+
+
+    /* ==========================================
+       CATEGORY GRID
+    ========================================== */
+
+    .category-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 16px;
+    }
+
+
+    .category-card {
+        display: block;
+
+        padding:
+            23px;
+
+        background:
+            white;
+
+        border:
+            1px solid #e2dfd9;
+
+        border-radius:
+            8px;
+
+        text-decoration:
+            none;
+
+        transition:
+            0.2s ease;
+    }
+
+
+    .category-card:hover {
+        border-color:
+            #8b1e2d;
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 7px 18px
+            rgba(0, 0, 0, 0.08);
+    }
+
+
+    .category-card h3 {
+        margin:
+            0 0 7px;
+
+        color:
+            #172033;
+
+        font-size:
+            17px;
+    }
+
+
+    .category-card p {
+        margin:
+            0;
+
+        color:
+            #68707b;
+
+        font-size:
+            13px;
+
+        line-height:
+            1.5;
+    }
+
+
+    /* ==========================================
+       HOW IT WORKS
+    ========================================== */
+
+    .how-section {
+        margin-top:
+            55px;
+    }
+
+
+    .steps {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 18px;
+    }
+
+
+    .step {
+        padding:
+            25px;
+
+        background:
+            white;
+
+        border:
+            1px solid #e2dfd9;
+
+        border-radius:
+            8px;
+    }
+
+
+    .step-number {
+        width:
+            35px;
+
+        height:
+            35px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        margin-bottom:
+            15px;
+
+        border-radius:
+            50%;
+
+        background:
+            #8b1e2d;
+
+        color:
+            white;
+
+        font-size:
+            14px;
+
+        font-weight:
+            700;
+    }
+
+
+    .step h3 {
+        margin:
+            0 0 8px;
+
+        color:
+            #172033;
+
+        font-size:
+            17px;
+    }
+
+
+    .step p {
+        margin:
+            0;
+
+        color:
+            #626a74;
+
+        font-size:
+            14px;
+    }
+
+
+    /* ==========================================
+       CTA
+    ========================================== */
+
+    .cta {
+        margin-top:
+            55px;
+
+        padding:
+            38px;
+
+        background:
+            #172033;
+
+        border-radius:
+            9px;
+
+        text-align:
+            center;
+    }
+
+
+    .cta h2 {
+        margin:
+            0 0 10px;
+
+        color:
+            white;
+
+        font-size:
+            27px;
+    }
+
+
+    .cta p {
+        max-width:
+            620px;
+
+        margin:
+            0 auto 22px;
+
+        color:
+            #d6dae0;
+
+        font-size:
+            15px;
+    }
+
+
+    /* ==========================================
+       FOOTER
+    ========================================== */
+
+    .footer {
+        padding:
+            25px;
+
+        background:
+            #101827;
+
+        text-align:
+            center;
+
+        color:
+            #aeb4bd;
+
+        font-size:
+            13px;
+    }
+
+
+    /* ==========================================
+       TABLET
+    ========================================== */
+
+    @media (max-width: 900px) {
+
+        .hero {
+            min-height:
+                700px;
+
+            padding:
+                140px 5% 55px;
+        }
+
+
+        .category-grid {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+
+        .steps {
+            grid-template-columns:
+                1fr;
+        }
+
+    }
+
+
+    /* ==========================================
+       MOBILE
+    ========================================== */
+
+    @media (max-width: 600px) {
+
+        .hero {
+            min-height:
+                650px;
+
+            padding:
+                125px 18px 35px;
+
+            background-position:
+                center top;
+        }
+
+
+        .hero-content {
+            padding:
+                25px 22px;
+        }
+
+
+        .hero-content h1 {
+            font-size:
+                32px;
+        }
+
+
+        .hero-content p {
+            font-size:
+                14px;
+        }
+
+
+        .content-area {
+            padding:
+                45px 18px 55px;
+        }
+
+
+        .category-grid {
+            grid-template-columns:
+                1fr;
+        }
+
+
+        .cta {
+            padding:
+                30px 20px;
+        }
+
+    }
+
+</style>
+
+
+<div class="campus-home">
+
+
+    <!-- ==========================================
+         HERO / UNIVERSITY BACKGROUND
+    ========================================== -->
+
+    <section class="hero">
+
+
+        <div class="hero-content">
+
+            <h1>
+                Buy, sell and exchange items on your campus.
+            </h1>
+
+
+            <p>
+                CampusLoop is a student-to-student marketplace
+                where you can find useful items, sell things you
+                no longer need, and exchange resources within
+                your campus community.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                {% if user.is_authenticated %}
+
+                    <a
+                        href="{% url 'listings' %}"
+                        class="primary-button"
+                    >
+                        Browse Items
+                    </a>
+
+
+                    <a
+                        href="{% url 'add_listing' %}"
+                        class="secondary-button"
+                    >
+                        Sell an Item
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'register' %}"
+                        class="primary-button"
+                    >
+                        Join CampusLoop
+                    </a>
+
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="secondary-button"
+                    >
+                        Login
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <section class="content-area">
+
+
+        <div class="content-container">
+
+
+            <!-- ======================================
+                 CATEGORIES
+            ====================================== -->
+
+            <div class="section-heading">
+
+                <h2>
+                    Browse by category
+                </h2>
+
+                <p>
+                    Find useful items shared by students
+                    across your campus.
+                </p>
+
+            </div>
+
+
+            <div class="category-grid">
+
+
+                <a
+                    href="{% url 'listings' %}?category=Book"
+                    class="category-card"
+                >
+
+                    <h3>
+                        Books
+                    </h3>
+
+                    <p>
+                        Textbooks, reference books and
+                        study materials.
+                    </p>
+
+                </a>
+
+
+                <a
+                    href="{% url 'listings' %}?category=Electronic"
+                    class="category-card"
+                >
+
+                    <h3>
+                        Electronics
+                    </h3>
+
+                    <p>
+                        Gadgets, accessories and useful
+                        electronic items.
+                    </p>
+
+                </a>
+
+
+                <a
+                    href="{% url 'listings' %}?category=Clothing"
+                    class="category-card"
+                >
+
+                    <h3>
+                        Clothing
+                    </h3>
+
+                    <p>
+                        Clothes and other wearable items
+                        from students.
+                    </p>
+
+                </a>
+
+
+                <a
+                    href="{% url 'listings' %}?category=Other"
+                    class="category-card"
+                >
+
+                    <h3>
+                        Other Items
+                    </h3>
+
+                    <p>
+                        Other useful things available
+                        around campus.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+
+            <!-- ======================================
+                 HOW IT WORKS
+            ====================================== -->
+
+            <div class="how-section">
+
+
+                <div class="section-heading">
+
+                    <h2>
+                        How CampusLoop works
+                    </h2>
+
+                    <p>
+                        Exchange items directly with
+                        other students.
+                    </p>
+
+                </div>
+
+
+                <div class="steps">
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            1
+                        </div>
+
+                        <h3>
+                            Find an item
+                        </h3>
+
+                        <p>
+                            Browse available listings and
+                            find something you need.
+                        </p>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            2
+                        </div>
+
+                        <h3>
+                            Contact the student
+                        </h3>
+
+                        <p>
+                            Start a direct conversation with
+                            the student who listed the item.
+                        </p>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            3
+                        </div>
+
+                        <h3>
+                            Complete the exchange
+                        </h3>
+
+                        <p>
+                            Discuss the details and complete
+                            your exchange on campus.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================================
+                 CTA
+            ====================================== -->
+
+            <div class="cta">
+
+                <h2>
+                    Have something you no longer need?
+                </h2>
+
+
+                <p>
+                    List it on CampusLoop and help another
+                    student find something useful.
+                </p>
+
+
+                {% if user.is_authenticated %}
+
+                    <a
+                        href="{% url 'add_listing' %}"
+                        class="primary-button"
+                    >
+                        Add an Item
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'register' %}"
+                        class="primary-button"
+                    >
+                        Get Started
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="footer">
+
+        CampusLoop — Student-to-student campus marketplace.
+
+    </footer>
+
+
+</div>
+
+
+{% endblock %}

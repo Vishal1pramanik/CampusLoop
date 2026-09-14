@@ -1,0 +1,372 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="inbox-page">
+
+    <div class="inbox-header">
+
+        <div>
+            <div class="eyebrow">
+                CAMPUSLOOP MESSAGES
+            </div>
+
+            <h1>Inbox</h1>
+
+            <p>
+                Manage your conversations with students on campus.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if conversations %}
+
+        <div class="conversation-list">
+
+            {% for conversation in conversations %}
+
+                <div class="conversation-card">
+
+                    <div class="student-avatar">
+                        {{ conversation.other_user.username|first|upper }}
+                    </div>
+
+
+                    <div class="conversation-main">
+
+                        <div class="conversation-title">
+
+                            <h3>
+                                {{ conversation.other_user.username }}
+                            </h3>
+
+                            {% if conversation.unread %}
+                                <span class="new-badge">
+                                    NEW
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="listing-name">
+                            {{ conversation.message.listing.title }}
+                        </div>
+
+
+                        <p class="message-preview">
+                            {{ conversation.message.text|truncatechars:110 }}
+                        </p>
+
+
+                        <div class="conversation-meta">
+
+                            <span>
+                                {{ conversation.message.created_at|date:"d M Y, h:i A" }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="conversation-action">
+
+                        <a
+                            href="{% url 'conversation' id=conversation.message.listing.id user_id=conversation.other_user.id %}"
+                            class="open-conversation"
+                        >
+                            Open Conversation
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                💬
+            </div>
+
+            <h2>Your inbox is empty</h2>
+
+            <p>
+                Conversations with other students will appear here
+                when someone contacts you about an item.
+            </p>
+
+            <a
+                href="{% url 'listings' %}"
+                class="browse-button"
+            >
+                Browse Items
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+
+    .inbox-page {
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 50px 24px 80px;
+    }
+
+
+    .inbox-header {
+        margin-bottom: 32px;
+    }
+
+
+    .eyebrow {
+        color: #8b1e2d;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+    }
+
+
+    .inbox-header h1 {
+        margin: 0;
+        color: #172033;
+        font-size: 36px;
+        font-weight: 750;
+        letter-spacing: -0.6px;
+    }
+
+
+    .inbox-header p {
+        margin: 8px 0 0;
+        color: #667085;
+        font-size: 15px;
+    }
+
+
+    .conversation-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+
+    .conversation-card {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+        transition: border-color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    transform 0.2s ease;
+    }
+
+
+    .conversation-card:hover {
+        border-color: #d0d5dd;
+        box-shadow: 0 8px 24px rgba(23, 32, 51, 0.07);
+        transform: translateY(-1px);
+    }
+
+
+    .student-avatar {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 50%;
+        background: #f4e7e9;
+        color: #8b1e2d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 750;
+    }
+
+
+    .conversation-main {
+        flex: 1;
+        min-width: 0;
+    }
+
+
+    .conversation-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+
+    .conversation-title h3 {
+        margin: 0;
+        color: #172033;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+
+    .new-badge {
+        background: #8b1e2d;
+        color: #ffffff;
+        border-radius: 4px;
+        padding: 3px 6px;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.6px;
+    }
+
+
+    .listing-name {
+        margin-top: 5px;
+        color: #8b1e2d;
+        font-size: 13px;
+        font-weight: 650;
+    }
+
+
+    .message-preview {
+        margin: 5px 0 0;
+        color: #667085;
+        font-size: 14px;
+        line-height: 1.45;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .conversation-meta {
+        margin-top: 7px;
+        color: #98a2b3;
+        font-size: 11px;
+    }
+
+
+    .conversation-action {
+        flex-shrink: 0;
+    }
+
+
+    .open-conversation {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 6px;
+        background: #8b1e2d;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 650;
+        transition: background 0.2s ease;
+    }
+
+
+    .open-conversation:hover {
+        background: #701724;
+    }
+
+
+    .empty-state {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        text-align: center;
+        padding: 75px 25px;
+    }
+
+
+    .empty-icon {
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+
+    .empty-state h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 23px;
+    }
+
+
+    .empty-state p {
+        max-width: 470px;
+        margin: 10px auto 25px;
+        color: #667085;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+    .browse-button {
+        display: inline-block;
+        background: #8b1e2d;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 11px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 650;
+    }
+
+
+    .browse-button:hover {
+        background: #701724;
+    }
+
+
+    @media (max-width: 700px) {
+
+        .inbox-page {
+            padding: 35px 16px 60px;
+        }
+
+
+        .inbox-header h1 {
+            font-size: 30px;
+        }
+
+
+        .conversation-card {
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+
+        .conversation-main {
+            width: calc(100% - 66px);
+        }
+
+
+        .conversation-action {
+            width: 100%;
+            margin-left: 66px;
+        }
+
+
+        .open-conversation {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+    }
+
+</style>
+
+{% endblock %}

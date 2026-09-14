@@ -1,0 +1,501 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}CampusLoop{% endblock %}
+    </title>
+
+    <style>
+
+        :root {
+            --maroon: #8b1e2d;
+            --maroon-dark: #701724;
+            --navy: #172033;
+            --navy-dark: #0f1726;
+            --gold: #c9a227;
+
+            --text: #172033;
+            --muted: #69707d;
+            --border: #e3e1dc;
+            --cream: #f8f7f4;
+            --white: #ffffff;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: var(--cream);
+            color: var(--text);
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 70px;
+
+            background: var(--navy);
+
+            border-bottom: 3px solid var(--maroon);
+
+            display: flex;
+            align-items: center;
+
+            z-index: 1000;
+        }
+
+
+        .nav-container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+            padding: 0 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+        }
+
+
+        /* BRAND */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: white;
+            text-decoration: none;
+
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+
+            white-space: nowrap;
+        }
+
+
+        .brand-mark {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--maroon);
+
+            border-radius: 6px;
+
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+
+        .brand:hover {
+            color: white;
+        }
+
+
+        /* NAV LINKS */
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+
+        .nav-links a {
+            color: #dfe3e9;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 9px 11px;
+
+            border-radius: 5px;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+
+        .nav-links .nav-primary {
+            background: var(--maroon);
+            color: white;
+
+            margin-left: 5px;
+        }
+
+
+        .nav-links .nav-primary:hover {
+            background: var(--maroon-dark);
+        }
+
+
+        /* LOGOUT */
+
+        .logout-form {
+            display: inline;
+            margin: 0;
+        }
+
+
+        .logout-btn {
+            border: none;
+            background: transparent;
+
+            color: #dfe3e9;
+
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 9px 11px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           GLOBAL ELEMENTS
+        ========================= */
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: var(--text);
+        }
+
+
+        p {
+            color: var(--muted);
+        }
+
+
+        a {
+            color: var(--maroon);
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .site-footer {
+            background: var(--navy);
+
+            color: #cdd2da;
+
+            padding: 28px 6%;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+
+        .site-footer p {
+            margin: 0;
+            color: #aeb5c0;
+        }
+
+
+        .site-footer strong {
+            color: white;
+        }
+
+
+        /* =========================
+           MOBILE NAVBAR
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .nav-container {
+                padding: 0 4%;
+            }
+
+
+            .brand {
+                font-size: 19px;
+            }
+
+
+            .nav-links {
+                gap: 1px;
+            }
+
+
+            .nav-links a,
+            .logout-btn {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                height: auto;
+                min-height: 64px;
+            }
+
+
+            .nav-container {
+                padding: 10px 4%;
+
+                align-items: flex-start;
+            }
+
+
+            .brand {
+                padding-top: 5px;
+            }
+
+
+            .nav-links {
+                display: flex;
+
+                flex-wrap: wrap;
+                justify-content: flex-end;
+
+                max-width: 230px;
+            }
+
+
+            .nav-links a,
+            .logout-btn {
+                font-size: 12px;
+                padding: 6px 7px;
+            }
+
+
+            .nav-links .nav-primary {
+                margin-left: 0;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .brand-mark {
+                width: 28px;
+                height: 28px;
+            }
+
+
+            .brand {
+                font-size: 17px;
+            }
+
+
+            .nav-links {
+                max-width: 190px;
+            }
+
+
+            .nav-links a,
+            .logout-btn {
+                font-size: 11px;
+                padding: 5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="{% url 'home' %}" class="brand">
+
+                <span class="brand-mark">
+                    CL
+                </span>
+
+                CampusLoop
+
+            </a>
+
+
+            <div class="nav-links">
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'listings' %}">
+                        Browse
+                    </a>
+
+
+                    <a href="{% url 'add_listing' %}">
+                        Add Item
+                    </a>
+
+
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+
+
+                    <a href="{% url 'inbox' %}">
+                        Inbox
+                    </a>
+
+
+                    <form method="POST"
+                          action="{% url 'logout' %}"
+                          class="logout-form">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="logout-btn">
+                            Logout
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+
+
+                    <a href="{% url 'register' %}"
+                       class="nav-primary">
+                        Join CampusLoop
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         PAGE CONTENT
+    ========================= -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    {% if request.resolver_match.url_name != 'home' %}
+
+        <footer class="site-footer">
+
+            <p>
+                <strong>CampusLoop</strong>
+                — Student-to-student resource exchange.
+            </p>
+
+        </footer>
+
+    {% endif %}
+
+</body>
+
+</html>

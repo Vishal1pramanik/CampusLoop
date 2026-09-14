@@ -1,0 +1,649 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Add Item - CampusLoop
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    /* ==========================================
+       ADD ITEM PAGE
+    ========================================== */
+
+    .add-page {
+        min-height: 100vh;
+
+        padding:
+            120px 6% 70px;
+
+        background:
+            #f8f7f4;
+    }
+
+
+    .add-container {
+        max-width:
+            820px;
+
+        margin:
+            0 auto;
+    }
+
+
+    /* ==========================================
+       HEADER
+    ========================================== */
+
+    .add-header {
+        margin-bottom:
+            25px;
+    }
+
+
+    .add-header h1 {
+        margin:
+            0 0 8px;
+
+        color:
+            #172033;
+
+        font-size:
+            34px;
+
+        letter-spacing:
+            -0.5px;
+    }
+
+
+    .add-header p {
+        margin:
+            0;
+
+        color:
+            #626a74;
+
+        font-size:
+            15px;
+    }
+
+
+    /* ==========================================
+       FORM CARD
+    ========================================== */
+
+    .form-card {
+        background:
+            #ffffff;
+
+        border:
+            1px solid #e3e1dd;
+
+        border-radius:
+            9px;
+
+        padding:
+            35px;
+
+        box-shadow:
+            0 7px 24px
+            rgba(15, 23, 42, 0.08);
+    }
+
+
+    /* ==========================================
+       FORM ROW
+    ========================================== */
+
+    .form-group {
+        margin-bottom:
+            22px;
+    }
+
+
+    .form-group:last-child {
+        margin-bottom:
+            0;
+    }
+
+
+    .form-group label {
+        display:
+            block;
+
+        margin-bottom:
+            7px;
+
+        color:
+            #303744;
+
+        font-size:
+            13px;
+
+        font-weight:
+            700;
+    }
+
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width:
+            100%;
+
+        padding:
+            11px 13px;
+
+        border:
+            1px solid #d5d2cd;
+
+        border-radius:
+            6px;
+
+        background:
+            #ffffff;
+
+        color:
+            #20242b;
+
+        font-family:
+            inherit;
+
+        font-size:
+            14px;
+
+        outline:
+            none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .form-group input,
+    .form-group select {
+        height:
+            44px;
+    }
+
+
+    .form-group textarea {
+        min-height:
+            130px;
+
+        resize:
+            vertical;
+    }
+
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color:
+            #8b1e2d;
+
+        box-shadow:
+            0 0 0 3px
+            rgba(139, 30, 45, 0.08);
+    }
+
+
+    /* ==========================================
+       HELP TEXT
+    ========================================== */
+
+    .help-text {
+        margin:
+            6px 0 0;
+
+        color:
+            #7a818a;
+
+        font-size:
+            12px;
+
+        line-height:
+            1.5;
+    }
+
+
+    /* ==========================================
+       TWO COLUMN ROW
+    ========================================== */
+
+    .form-row {
+        display:
+            grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:
+            18px;
+    }
+
+
+    /* ==========================================
+       ERROR
+    ========================================== */
+
+    .field-errors {
+        margin-top:
+            6px;
+
+        color:
+            #a12838;
+
+        font-size:
+            12px;
+    }
+
+
+    .non-field-errors {
+        margin-bottom:
+            22px;
+
+        padding:
+            12px 14px;
+
+        background:
+            #fbefef;
+
+        border:
+            1px solid #e5c5c8;
+
+        border-radius:
+            6px;
+
+        color:
+            #8b1e2d;
+
+        font-size:
+            13px;
+    }
+
+
+    /* ==========================================
+       FORM ACTIONS
+    ========================================== */
+
+    .form-actions {
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            12px;
+
+        margin-top:
+            30px;
+
+        padding-top:
+            25px;
+
+        border-top:
+            1px solid #e6e3de;
+    }
+
+
+    .submit-button {
+        padding:
+            11px 23px;
+
+        border:
+            1px solid #8b1e2d;
+
+        border-radius:
+            6px;
+
+        background:
+            #8b1e2d;
+
+        color:
+            #ffffff;
+
+        font-family:
+            inherit;
+
+        font-size:
+            14px;
+
+        font-weight:
+            600;
+
+        cursor:
+            pointer;
+
+        transition:
+            0.2s ease;
+    }
+
+
+    .submit-button:hover {
+        background:
+            #701724;
+
+        border-color:
+            #701724;
+    }
+
+
+    .cancel-link {
+        padding:
+            11px 18px;
+
+        border:
+            1px solid #d7d4cf;
+
+        border-radius:
+            6px;
+
+        color:
+            #555d68;
+
+        font-size:
+            14px;
+
+        font-weight:
+            600;
+
+        text-decoration:
+            none;
+    }
+
+
+    .cancel-link:hover {
+        background:
+            #f5f3ef;
+
+        color:
+            #172033;
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 650px) {
+
+        .add-page {
+            padding:
+                105px 18px 50px;
+        }
+
+
+        .form-card {
+            padding:
+                25px 20px;
+        }
+
+
+        .add-header h1 {
+            font-size:
+                29px;
+        }
+
+
+        .form-row {
+            grid-template-columns:
+                1fr;
+
+            gap:
+                0;
+        }
+
+
+        .form-actions {
+            flex-direction:
+                column;
+
+            align-items:
+                stretch;
+        }
+
+
+        .submit-button,
+        .cancel-link {
+            width:
+                100%;
+
+            text-align:
+                center;
+        }
+
+    }
+
+</style>
+
+
+<div class="add-page">
+
+
+    <div class="add-container">
+
+
+        <!-- ======================================
+             HEADER
+        ====================================== -->
+
+        <div class="add-header">
+
+            <h1>
+                Add an Item
+            </h1>
+
+            <p>
+                Share something useful with another
+                student on your campus.
+            </p>
+
+        </div>
+
+
+        <!-- ======================================
+             FORM
+        ====================================== -->
+
+        <div class="form-card">
+
+
+            {% if form.non_field_errors %}
+
+                <div class="non-field-errors">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.title.id_for_label }}">
+                        Item Title
+                    </label>
+
+                    {{ form.title }}
+
+                    {% if form.title.errors %}
+
+                        <div class="field-errors">
+                            {{ form.title.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% if form.description.errors %}
+
+                        <div class="field-errors">
+                            {{ form.description.errors }}
+                        </div>
+
+                    {% endif %}
+
+                    <p class="help-text">
+                        Describe the item, its condition and
+                        anything a student should know.
+                    </p>
+
+                </div>
+
+
+                <!-- CATEGORY + CONDITION -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="{{ form.category.id_for_label }}">
+                            Category
+                        </label>
+
+                        {{ form.category }}
+
+                        {% if form.category.errors %}
+
+                            <div class="field-errors">
+                                {{ form.category.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="{{ form.condition.id_for_label }}">
+                            Condition
+                        </label>
+
+                        {{ form.condition }}
+
+                        {% if form.condition.errors %}
+
+                            <div class="field-errors">
+                                {{ form.condition.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- PRICE + EXCHANGE TYPE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="{{ form.price.id_for_label }}">
+                            Price
+                        </label>
+
+                        {{ form.price }}
+
+                        {% if form.price.errors %}
+
+                            <div class="field-errors">
+                                {{ form.price.errors }}
+                            </div>
+
+                        {% endif %}
+
+                        <p class="help-text">
+                            Enter 0 if you are giving the item
+                            away or exchanging it without payment.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="{{ form.exchange_type.id_for_label }}">
+                            Exchange Type
+                        </label>
+
+                        {{ form.exchange_type }}
+
+                        {% if form.exchange_type.errors %}
+
+                            <div class="field-errors">
+                                {{ form.exchange_type.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Publish Item
+                    </button>
+
+
+                    <a
+                        href="{% url 'listings' %}"
+                        class="cancel-link"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}
