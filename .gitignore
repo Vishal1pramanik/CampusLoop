@@ -16,3 +16,5 @@ media/
 # Editor
 .vscode/
 .DS_Store
+.vercel
+.env*
