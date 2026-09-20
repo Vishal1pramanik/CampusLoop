@@ -15,10 +15,12 @@ from core.views import (
     dashboard,
     my_requests,
     mark_as_sold,
+    database_admin_diagnostic,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('__diagnostics/database-admin/', database_admin_diagnostic),
 
     path('', home, name='home'),
 

@@ -1,11 +1,38 @@
+import hmac
+import os
+
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import connection
 from django.db.models import Q
 
 from .models import Listing, ItemRequest, Message
 from .forms import ListingForm, ItemRequestForm
+
+
+def database_admin_diagnostic(request):
+
+    expected_token = os.getenv('CAMPUSLOOP_DIAGNOSTIC_TOKEN')
+
+    if not expected_token or not hmac.compare_digest(
+        request.headers.get('X-CampusLoop-Diagnostic-Token', ''),
+        expected_token,
+    ):
+        return JsonResponse({'detail': 'Not found.'}, status=404)
+
+    user = User.objects.filter(username='admin').first()
+
+    return JsonResponse(
+        {
+            'database_engine': connection.settings_dict['ENGINE'],
+            'admin_exists': user is not None,
+            'admin_is_staff': bool(user and user.is_staff),
+            'admin_is_superuser': bool(user and user.is_superuser),
+        }
+    )
 
 
 # =========================================================
