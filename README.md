@@ -154,9 +154,6 @@ Item Details
 Contact Seller
 Django Admin Panel
 
-Example:
-
-![CampusLoop Home](screenshots/home.png)
 🎯 Project Objective
 
 The main objective of CampusLoop is to create a digital marketplace specifically for students where they can:
